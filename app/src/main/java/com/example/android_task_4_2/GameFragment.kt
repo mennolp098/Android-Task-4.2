@@ -10,16 +10,28 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.item_game_history.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 
 const val ROCK = 0
 const val PAPER = 1
 const val SCISSORS = 2
 
+const val WIN = 0;
+const val LOSE = 1;
+const val DRAW = 2;
+
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class GameFragment : Fragment() {
+    private lateinit var gameResultRepository: GameResultRepository
+    private val mainScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +43,8 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        gameResultRepository = GameResultRepository(requireContext())
 
         view.findViewById<ImageView>(R.id.iv_paper).setOnClickListener {
             onOptionSelected(view, PAPER)
@@ -48,6 +62,7 @@ class GameFragment : Fragment() {
         val computerImageView = view.findViewById<ImageView>(R.id.iv_pc)
         val youImageView = view.findViewById<ImageView>(R.id.iv_you)
         val resultTextView = view.findViewById<TextView>(R.id.tv_output)
+        var result = 0;
 
         when(computer) {
             0 -> computerImageView.setImageResource(R.drawable.rock)
@@ -64,10 +79,25 @@ class GameFragment : Fragment() {
         if(option == computer)
         {
             resultTextView.text = getString(R.string.draw)
+            result = DRAW
         } else if((option == ROCK && computer == SCISSORS) || (option == PAPER && computer == ROCK) || (option == SCISSORS && computer == PAPER)) {
             resultTextView.text = getString(R.string.you_win)
+            result = WIN
         } else {
             resultTextView.text = getString(R.string.you_lose)
+            result = LOSE
+        }
+
+        mainScope.launch {
+            val gameResult = GameResult(
+                timestamp = System.currentTimeMillis().toInt(),
+                computer = computer,
+                you = option,
+                result = result
+            )
+            withContext(Dispatchers.IO) {
+                gameResultRepository.insertGameResult(gameResult)
+            }
         }
     }
 }
