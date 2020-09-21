@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.android_task_4_2.GameFragment"
-        android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_game">
 
         <action
@@ -18,7 +17,6 @@
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.example.android_task_4_2.HistoryFragment"
-        android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_history">
 
         <action
