@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Android-Task-4-2</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="welcome">Welcome</string>
+    <string name="instructions">Instructions: select rock, paper, scissors to play.</string>
+    <string name="all_statistics">Your all time statistics</string>
+    <string name="statistics">Win: %d Draw: %d Lose: %d</string>
+    <string name="you_win">You win</string>
+    <string name="you_lose">You lose</string>
+    <string name="draw">Draw</string>
+    <string name="computer_win">Computer wins</string>
+    <string name="computer_lost">Computer lost</string>
+    <string name="computer">Computer</string>
+    <string name="you">You</string>
+    <string name="vs">V.S.</string>
+</resources>
