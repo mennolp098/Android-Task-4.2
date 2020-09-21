@@ -1,14 +1,14 @@
 package com.example.android_task_4_2
 
 import android.content.res.Resources
-import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_game_history.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class GameResultAdapter(private val gameresults: List<GameResult>) : RecyclerView.Adapter<GameResultAdapter.ViewHolder>() {
 
@@ -27,11 +27,13 @@ class GameResultAdapter(private val gameresults: List<GameResult>) : RecyclerVie
             var resultText = Resources.getSystem().getString(R.string.you_win)
             var computerDrawable = 0
             var youDrawable = 0;
+            val date = Date(gameResult.timestamp)
+            val df = SimpleDateFormat("dd:MM:yy:HH:mm:ss", Locale.getDefault())
 
             when(gameResult.result) {
-                WIN -> Resources.getSystem().getString(R.string.you_win)
-                LOSE -> Resources.getSystem().getString(R.string.computer_win)
-                DRAW -> Resources.getSystem().getString(R.string.draw)
+                WIN -> resultText = Resources.getSystem().getString(R.string.you_win)
+                LOSE -> resultText = Resources.getSystem().getString(R.string.computer_win)
+                DRAW -> resultText = Resources.getSystem().getString(R.string.draw)
             }
             when(gameResult.computer)
             {
@@ -47,7 +49,7 @@ class GameResultAdapter(private val gameresults: List<GameResult>) : RecyclerVie
             }
 
             itemView.findViewById<TextView>(R.id.tv_result).text = resultText
-            itemView.findViewById<TextView>(R.id.tv_date).text = gameResult.timestamp.toString()
+            itemView.findViewById<TextView>(R.id.tv_date).text = df.format(date)
             itemView.findViewById<ImageView>(R.id.iv_computer).setImageResource(computerDrawable)
             itemView.findViewById<ImageView>(R.id.iv_you).setImageResource(youDrawable)
         }

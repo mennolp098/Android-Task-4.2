@@ -14,7 +14,7 @@ data class GameResult(
     var id: Long? = null,
 
     @ColumnInfo(name = "timestamp")
-    var timestamp: Int,
+    var timestamp: Long,
 
     @ColumnInfo(name = "result")
     var result: Int,

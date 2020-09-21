@@ -90,7 +90,7 @@ class GameFragment : Fragment() {
 
         mainScope.launch {
             val gameResult = GameResult(
-                timestamp = System.currentTimeMillis().toInt(),
+                timestamp = System.currentTimeMillis(),
                 computer = computer,
                 you = option,
                 result = result
