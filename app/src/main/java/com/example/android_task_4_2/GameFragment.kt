@@ -3,12 +3,17 @@ package com.example.android_task_4_2
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.get
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_game_history.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +36,7 @@ const val DRAW = 2;
  */
 class GameFragment : Fragment() {
     private lateinit var gameResultRepository: GameResultRepository
+    private lateinit var navController: NavController
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateView(
@@ -43,6 +49,16 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
+
+        var toolbar:Toolbar? = getActivity()?.findViewById(R.id.toolbar)
+        if(toolbar != null) {
+            toolbar.setOnMenuItemClickListener {
+                onMenuItemClick(it)
+            }
+            //toolbar.menu[0].setIcon(R.drawable.ic_history_white_24dp)
+            //toolbar.menu.getItem(R.id.action_icon).setIcon(R.drawable.ic_history_white_24dp)
+        }
 
         gameResultRepository = GameResultRepository(requireContext())
 
@@ -99,5 +115,16 @@ class GameFragment : Fragment() {
                 gameResultRepository.insertGameResult(gameResult)
             }
         }
+    }
+
+    private fun onMenuItemClick(menuItem: MenuItem): Boolean {
+        if(menuItem.itemId == R.id.action_icon)
+        {
+            navController.navigate(
+                R.id.action_FirstFragment_to_SecondFragment
+            )
+            return true
+        }
+        return false
     }
 }

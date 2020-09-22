@@ -24,16 +24,16 @@ class GameResultAdapter(private val gameresults: List<GameResult>) : RecyclerVie
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(gameResult: GameResult) {
-            var resultText = Resources.getSystem().getString(R.string.you_win)
+            var resultText = ""
             var computerDrawable = 0
             var youDrawable = 0;
             val date = Date(gameResult.timestamp)
-            val df = SimpleDateFormat("dd:MM:yy:HH:mm:ss", Locale.getDefault())
+            val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ", Locale.getDefault())
 
             when(gameResult.result) {
-                WIN -> resultText = Resources.getSystem().getString(R.string.you_win)
-                LOSE -> resultText = Resources.getSystem().getString(R.string.computer_win)
-                DRAW -> resultText = Resources.getSystem().getString(R.string.draw)
+                WIN -> resultText = itemView.context.getString(R.string.you_win)
+                LOSE -> resultText = itemView.context.getString(R.string.computer_win)
+                DRAW -> resultText = itemView.context.getString(R.string.draw)
             }
             when(gameResult.computer)
             {
